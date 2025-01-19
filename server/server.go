@@ -90,8 +90,6 @@ func ContacaoHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	err = json.NewEncoder(w).Encode(exchangeResponseObject)
 
-	fmt.Println(response)
-
 }
 
 func initDB() {
@@ -150,7 +148,6 @@ func insertExchangeDatabase(cotacao ExchangeRate) error {
 	return nil
 }
 func GetExchangeByIDHandler(w http.ResponseWriter, r *http.Request) {
-	// Parse the `id` from the URL query parameters
 	idParam := r.URL.Query().Get("id")
 	if idParam == "" {
 		http.Error(w, "Missing 'id' parameter", http.StatusBadRequest)
@@ -163,10 +160,8 @@ func GetExchangeByIDHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Query the database for the record with the specified `id`
 	row := DB.QueryRow(`SELECT code, code_in, name, high, low, var_bid, pct_change, bid, ask, timestamp, create_date FROM cotacao WHERE id = ?`, id)
 
-	// Map the result to the ExchangeRate structure
 	var cotacao ExchangeRate
 	err = row.Scan(
 		&cotacao.USDBRL.Code,
